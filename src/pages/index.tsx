@@ -5,7 +5,15 @@ import DatePickerInput from '../components/DatePickerInput';
 
 import { Form } from '@unform/web';
 
-import { Container, Title, FormDiv, InputsDiv, FormButtom } from '../styles/home';
+import { 
+  Container, 
+  Title, 
+  FormDiv, 
+  InputsDiv, 
+  FormButtom, 
+  NextArrivalContainer, 
+  ArrivalDiv 
+} from '../styles/home';
 
 interface FormDTO {
   sheep: string;
@@ -38,6 +46,64 @@ const Home: React.FC = () => {
 
         </Form>
       </FormDiv>
+
+      <NextArrivalContainer>
+        <span>Próximas chegadas</span>
+
+        <div>
+          <ArrivalDiv>
+            <div>
+              <h3>Número da ovelha</h3>
+              <p>13</p>
+            </div>
+
+            <div>
+              <h3>Data do acasalamento</h3>
+              <p>13/12/2021</p>
+            </div>
+
+            <div>
+              <h3>Data da chegada</h3>
+              <p>13/05/2022</p>
+            </div>
+          </ArrivalDiv>
+
+          <ArrivalDiv>
+            <div>
+              <h3>Número da ovelha</h3>
+              <p>13</p>
+            </div>
+
+            <div>
+              <h3>Data do acasalamento</h3>
+              <p>13/12/2021</p>
+            </div>
+
+            <div>
+              <h3>Data da chegada</h3>
+              <p>13/05/2022</p>
+            </div>
+          </ArrivalDiv>
+
+          <ArrivalDiv>
+            <div>
+              <h3>Número da ovelha</h3>
+              <p>13</p>
+            </div>
+
+            <div>
+              <h3>Data do acasalamento</h3>
+              <p>13/12/2021</p>
+            </div>
+
+            <div>
+              <h3>Data da chegada</h3>
+              <p>13/05/2022</p>
+            </div>
+          </ArrivalDiv>
+        </div>
+      </NextArrivalContainer>
+
     </Container>
   )
 }

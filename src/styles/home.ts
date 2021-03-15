@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { shade } from 'polished';
 
 export const Container = styled.div`
-  max-width: 992px;
+  max-width: 1080px;
   margin: 0 auto;
 
   span {
@@ -59,13 +59,62 @@ export const FormButtom = styled.button`
   font-size: 24px;
   font-weight: bold;
 
-  transition: background-color 0.4s, transform 0.1s;
+  transition: background-color 0.4s, transform 0.1s, box-shadow 0.1s;
 
   &:hover {
     background: ${shade(0.2, '#679436')}
   }
   
   &:active {
+    box-shadow: none;
     transform: translate(2px, 2px);
+  }
+`;
+
+export const NextArrivalContainer = styled.div`
+  margin-top: 80px;
+
+  > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+`;
+
+export const ArrivalDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 520px;
+
+  margin-top: 50px;
+  background: rgba(255, 255, 255, 1);
+  border-radius: 5px;
+  padding-right: 8px;
+  padding-left: 8px;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    margin: 0 auto;
+
+    h3 {
+      font-size: 16px;
+      color: #1C0D00;
+    }
+    
+    p {
+      margin-top: 16px;
+      font-size: 16px;
+      color: #8C8B87;
+    }
+  }
+
+  div:not(:last-child) {
+    margin-right: 25px;
   }
 `;
