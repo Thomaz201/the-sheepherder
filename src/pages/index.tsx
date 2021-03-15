@@ -1,9 +1,11 @@
 import React from 'react';
 
 import Input from '../components/Input';
+import DatePickerInput from '../components/DatePickerInput';
+
 import { Form } from '@unform/web';
 
-import { Container, Title, FormDiv, InputsDiv } from '../styles/home';
+import { Container, Title, FormDiv, InputsDiv, FormButtom } from '../styles/home';
 
 interface FormDTO {
   sheep: string;
@@ -29,10 +31,10 @@ const Home: React.FC = () => {
           <InputsDiv>
             <Input name="sheep" placeholder="Número da ovelha" />
 
-            <Input name="date" placeholder="Data do acasalamento" />
+            <DatePickerInput name="date" />
           </InputsDiv>
 
-          <button type="submit">Click</button>
+          <FormButtom type="submit">Fazer o cálculo</FormButtom>
 
         </Form>
       </FormDiv>

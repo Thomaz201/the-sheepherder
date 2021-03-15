@@ -11,13 +11,16 @@
     "@unform/core": "^2.1.6",
     "@unform/web": "^2.1.6",
     "next": "10.0.8",
+    "polished": "^4.1.1",
     "react": "17.0.1",
+    "react-datepicker": "^3.6.0",
     "react-dom": "17.0.1",
     "styled-components": "^5.2.1"
   },
   "devDependencies": {
     "@types/node": "^14.14.31",
     "@types/react": "^17.0.2",
+    "@types/react-datepicker": "^3.1.7",
     "@types/react-dom": "^17.0.1",
     "@types/styled-components": "^5.1.7",
     "typescript": "^4.2.3"

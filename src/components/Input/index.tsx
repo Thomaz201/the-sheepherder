@@ -3,7 +3,6 @@ import { useField } from '@unform/core';
 
 import { Container } from './styles';
 
-
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
 }
