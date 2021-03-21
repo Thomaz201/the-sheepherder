@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { addDays, format } from 'date-fns';
 import { v4 } from 'uuid';
@@ -7,8 +7,10 @@ import Cookies from 'js-cookie';
 import Input from '../components/Input';
 import DatePickerInput from '../components/DatePickerInput';
 import ArrivalCard from '../components/ArrivalCard';
+import { FormHandles } from '@unform/core';
 
 import { Form } from '@unform/web';
+import * as Yup from 'yup';
 
 import { 
   Container, 
@@ -19,15 +21,16 @@ import {
   NextArrivalContainer 
 } from '../styles/home';
 import { GetServerSideProps } from 'next';
+import getValidationErrors from '../utils/getValidationErrors';
 
 interface FormDTO {
-  sheep: string;
+  sheep: number;
   date: string;
 }
 
 interface Pregnancy {
   id: string;
-  sheep: string;
+  sheep: number;
   pregnancyDay: string;
   arrivalDay: string;
 }
@@ -37,6 +40,7 @@ interface HomeProps {
 }
 
 export default function Home({ pageProps }: HomeProps) {
+  const formRef = useRef<FormHandles>(null);
   const [pregnancies, setPregnancies] = useState<Pregnancy[]>(() => {
     if (pageProps) {
       return pageProps
@@ -50,22 +54,45 @@ export default function Home({ pageProps }: HomeProps) {
 
   }, [pregnancies]);
   
-  function handleAddPregnancy(data: FormDTO) {
-    const pregnancyDay = new Date(data.date);
+  const handleAddPregnancy = useCallback( async (data: FormDTO) => {
+    try {
+      formRef.current?.setErrors({});
 
-    const arrivalDay = addDays(pregnancyDay, 152);
+      const schema = Yup.object().shape({
+        sheep: Yup.number().required('Precisa ser um número').max(999, 'No máximo 3 dígitos'),
+        date: Yup.date().required('Precisa informar a data')
+      });
 
-    const pregnancy = {
-      id: v4(),
-      sheep: data.sheep,
-      pregnancyDay: format(pregnancyDay, 'dd/MM/yyyy'),
-      arrivalDay: format(arrivalDay, 'dd/MM/yyyy'),
+      await schema.validate(data, {
+        abortEarly: false,
+      });
+      
+      const pregnancyDay = new Date(data.date);
+
+      const arrivalDay = addDays(pregnancyDay, 152);
+
+      const pregnancy = {
+        id: v4(),
+        sheep: data.sheep,
+        pregnancyDay: format(pregnancyDay, 'dd/MM/yyyy'),
+        arrivalDay: format(arrivalDay, 'dd/MM/yyyy'),
+      }
+
+      setPregnancies([...pregnancies, pregnancy]);
+
+      Cookies.set('pageData', JSON.stringify(pregnancies));
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        const errors = getValidationErrors(error);
+
+        formRef.current?.setErrors(errors);
+
+        console.log(errors);
+
+        return;
+      }
     }
-
-    setPregnancies([...pregnancies, pregnancy]);
-
-    Cookies.set('pageData', pregnancies);
-  }
+  }, [pregnancies, setPregnancies]);
 
   return (
     <Container>
@@ -77,10 +104,10 @@ export default function Home({ pageProps }: HomeProps) {
       <span>Calcule a chegada do próximo integrante da família</span>
 
       <FormDiv>
-        <Form onSubmit={handleAddPregnancy}>
+        <Form ref={formRef} onSubmit={handleAddPregnancy}>
           <InputsDiv>
             <Input name="sheep" placeholder="Número da ovelha" />
-
+            
             <DatePickerInput name="date" />
           </InputsDiv>
 

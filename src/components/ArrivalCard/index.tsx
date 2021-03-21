@@ -5,7 +5,7 @@ import { ArrivalDiv } from './styles';
 interface Pregnancy {
   data: {
     id: string;
-    sheep: string;
+    sheep: number;
     pregnancyDay: string;
     arrivalDay: string;
   }
