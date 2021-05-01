@@ -12,13 +12,13 @@ import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 
-import { 
-  Container, 
-  Title, 
-  FormDiv, 
-  InputsDiv, 
-  FormButtom, 
-  NextArrivalContainer 
+import {
+  Container,
+  Title,
+  FormDiv,
+  InputsDiv,
+  FormButtom,
+  NextArrivalContainer
 } from '../styles/home';
 import { GetServerSideProps } from 'next';
 import getValidationErrors from '../utils/getValidationErrors';
@@ -53,20 +53,20 @@ export default function Home({ pageProps }: HomeProps) {
     Cookies.set('pageData', JSON.stringify(pregnancies));
 
   }, [pregnancies]);
-  
-  const handleAddPregnancy = useCallback( async (data: FormDTO) => {
+
+  const handleAddPregnancy = useCallback(async (data: FormDTO) => {
     try {
       formRef.current?.setErrors({});
 
       const schema = Yup.object().shape({
-        sheep: Yup.number().required('Precisa ser um número').max(999, 'No máximo 3 dígitos'),
-        date: Yup.date().required('Precisa informar a data')
+        sheep: Yup.number().required('Apenas números são permitidos').max(999, 'No máximo 3 dígitos').min(1, 'Número mínimo 1'),
+        date: Yup.date().required('É necessário informar a data')
       });
 
       await schema.validate(data, {
         abortEarly: false,
       });
-      
+
       const pregnancyDay = new Date(data.date);
 
       const arrivalDay = addDays(pregnancyDay, 152);
@@ -76,6 +76,12 @@ export default function Home({ pageProps }: HomeProps) {
         sheep: data.sheep,
         pregnancyDay: format(pregnancyDay, 'dd/MM/yyyy'),
         arrivalDay: format(arrivalDay, 'dd/MM/yyyy'),
+      }
+
+      const duplicate = pregnancies.find(card => card.sheep === pregnancy.sheep);
+
+      if (duplicate) {
+        throw new Error('Essa ovelha já está grávida');
       }
 
       setPregnancies([...pregnancies, pregnancy]);
@@ -91,6 +97,8 @@ export default function Home({ pageProps }: HomeProps) {
 
         return;
       }
+
+      console.log('error', error);
     }
   }, [pregnancies, setPregnancies]);
 
@@ -107,7 +115,7 @@ export default function Home({ pageProps }: HomeProps) {
         <Form ref={formRef} onSubmit={handleAddPregnancy}>
           <InputsDiv>
             <Input name="sheep" placeholder="Número da ovelha" />
-            
+
             <DatePickerInput name="date" />
           </InputsDiv>
 
@@ -120,10 +128,10 @@ export default function Home({ pageProps }: HomeProps) {
         <span>Próximas chegadas</span>
 
         <div>
-          { pregnancies && pregnancies.map((pregnancy) => (
+          {pregnancies && pregnancies.map((pregnancy) => (
             <ArrivalCard key={pregnancy.id} data={pregnancy} />
-          )) }
-          
+          ))}
+
         </div>
       </NextArrivalContainer>
 
