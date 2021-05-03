@@ -50,7 +50,7 @@ export default function Home({ pageProps }: HomeProps) {
   });
 
   useEffect(() => {
-    Cookies.set('pageData', JSON.stringify(pregnancies), { sameSite: 'None', secure: true });
+    Cookies.set('pageData', JSON.stringify(pregnancies), { sameSite: 'None', secure: true, expires: 1000 });
 
   }, [pregnancies]);
 
@@ -86,7 +86,7 @@ export default function Home({ pageProps }: HomeProps) {
 
       setPregnancies([...pregnancies, pregnancy]);
 
-      Cookies.set('pageData', JSON.stringify(pregnancies), { sameSite: 'None', secure: true });
+      Cookies.set('pageData', JSON.stringify(pregnancies), { sameSite: 'None', secure: true, expires: 1000 });
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const errors = getValidationErrors(error);
