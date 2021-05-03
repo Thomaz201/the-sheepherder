@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ArrivalDiv } from './styles';
+import { ArrivalDiv, ThrashIcon, Container } from './styles';
 
 interface Pregnancy {
   data: {
@@ -8,26 +8,33 @@ interface Pregnancy {
     sheep: number;
     pregnancyDay: string;
     arrivalDay: string;
-  }
+  },
+  pressFunction: () => void;
 }
 
-const ArrivalCard: React.FC<Pregnancy> = ({ data }) => {
+const ArrivalCard: React.FC<Pregnancy> = ({ data, pressFunction }) => {
   return (
     <ArrivalDiv >
-      <div>
-        <h3>Número da ovelha</h3>
-        <p>{data.sheep}</p>
-      </div>
+      <ThrashIcon onClick={pressFunction}>
+        <p>X</p>
+      </ThrashIcon>
 
-      <div>
-        <h3>Data do acasalamento</h3>
-        <p>{data.pregnancyDay}</p>
-      </div>
+      <Container>
+        <div>
+          <h3>Número da ovelha</h3>
+          <p>{data.sheep}</p>
+        </div>
 
-      <div>
-        <h3>Data da chegada</h3>
-        <p>{data.arrivalDay}</p>
-      </div>
+        <div>
+          <h3>Data do acasalamento</h3>
+          <p>{data.pregnancyDay}</p>
+        </div>
+
+        <div>
+          <h3>Data da chegada</h3>
+          <p>{data.arrivalDay}</p>
+        </div>
+      </Container>
     </ArrivalDiv>
   )
 }

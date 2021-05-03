@@ -13,11 +13,11 @@ interface DatePickerProps extends Omit<ReactDatePickerProps, 'onChange'> {
 
 const DatePickerInput: React.FC<DatePickerProps> = ({ name, ...rest }) => {
   const datePickerRef = useRef(null);
-  
+
   const { fieldName, defaultValue, registerField, error } = useField(name);
-  
+
   const [date, setDate] = useState(defaultValue || null);
-  
+
   useEffect(() => {
     registerField({
       name: fieldName,
@@ -28,14 +28,16 @@ const DatePickerInput: React.FC<DatePickerProps> = ({ name, ...rest }) => {
 
   return (
     <Container>
-      <ReactDatePicker 
-        ref={datePickerRef} 
-        selected={date} 
-        onChange={setDate} 
+      <ReactDatePicker
+        ref={datePickerRef}
+        selected={date}
+        onChange={setDate}
         dateFormat="dd/MM/yyyy"
         placeholderText="Data do acasalamento"
-        {...rest} 
+        {...rest}
       />
+
+      { error && <p>{error}</p>}
     </Container>
   )
 }

@@ -50,7 +50,7 @@ export default function Home({ pageProps }: HomeProps) {
   });
 
   useEffect(() => {
-    Cookies.set('pageData', JSON.stringify(pregnancies));
+    Cookies.set('pageData', JSON.stringify(pregnancies), { sameSite: 'None', secure: true });
 
   }, [pregnancies]);
 
@@ -59,8 +59,8 @@ export default function Home({ pageProps }: HomeProps) {
       formRef.current?.setErrors({});
 
       const schema = Yup.object().shape({
-        sheep: Yup.number().required('Apenas números são permitidos').max(999, 'No máximo 3 dígitos').min(1, 'Número mínimo 1'),
-        date: Yup.date().required('É necessário informar a data')
+        sheep: Yup.number().required('Apenas números são permitidos').max(999, 'No máximo 3 dígitos').min(1, 'Número mínimo 1').typeError('É necessário informar um número'),
+        date: Yup.date().required('É necessário informar a data').typeError('É necessário informar uma data')
       });
 
       await schema.validate(data, {
@@ -86,7 +86,7 @@ export default function Home({ pageProps }: HomeProps) {
 
       setPregnancies([...pregnancies, pregnancy]);
 
-      Cookies.set('pageData', JSON.stringify(pregnancies));
+      Cookies.set('pageData', JSON.stringify(pregnancies), { sameSite: 'None', secure: true });
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const errors = getValidationErrors(error);
@@ -98,9 +98,23 @@ export default function Home({ pageProps }: HomeProps) {
         return;
       }
 
-      console.log('error', error);
+      alert(error)
+
+      console.log(error);
+
+      return;
     }
   }, [pregnancies, setPregnancies]);
+
+  const handleDeletePregnancy = useCallback((id) => {
+    const savedPregnancies = JSON.parse(Cookies.get('pageData'))
+
+    const newPregnancyList = savedPregnancies.filter(pregnancy => id !== pregnancy.id);
+
+    setPregnancies(newPregnancyList);
+
+    Cookies.set('pageData', JSON.stringify(newPregnancyList));
+  }, []);
 
   return (
     <Container>
@@ -129,7 +143,7 @@ export default function Home({ pageProps }: HomeProps) {
 
         <div>
           {pregnancies && pregnancies.map((pregnancy) => (
-            <ArrivalCard key={pregnancy.id} data={pregnancy} />
+            <ArrivalCard key={pregnancy.id} data={pregnancy} pressFunction={() => handleDeletePregnancy(pregnancy.id)} />
           ))}
 
         </div>

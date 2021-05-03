@@ -11,7 +11,7 @@ const Input: React.FC<InputProps> = ({ name, ...rest }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { fieldName, defaultValue, registerField, error } = useField(name);
-  
+
   useEffect(() => {
     registerField({
       name: fieldName,
@@ -23,8 +23,10 @@ const Input: React.FC<InputProps> = ({ name, ...rest }) => {
   return (
     <Container>
       <input ref={inputRef} defaultValue={defaultValue} {...rest} />
+
+      { error && <p>{error}</p>}
     </Container>
-  )
+  );
 }
 
 export default Input;

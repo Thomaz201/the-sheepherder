@@ -1,12 +1,12 @@
-import styled from 'styled-components';
-import { shade } from 'polished';
+import styled from "styled-components";
+import { shade } from "polished";
 
 export const Container = styled.div`
-  max-width: 1080px;
+  max-width: 1260px;
   margin: 0 auto;
 
   span {
-    color: #8C8B87;
+    color: #8c8b87;
     font-weight: bold;
     font-size: 24px;
     line-height: 28px;
@@ -14,7 +14,7 @@ export const Container = styled.div`
 `;
 
 export const Title = styled.div`
-  color: #1C0D00;
+  color: #1c0d00;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -54,7 +54,7 @@ export const FormButtom = styled.button`
   background: #679436;
   border: none;
   border-radius: 5px;
-  box-shadow: 2px 2px 6px rgba(0,0,0, 0.5);
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
 
   font-size: 24px;
   font-weight: bold;
@@ -62,9 +62,9 @@ export const FormButtom = styled.button`
   transition: background-color 0.4s, transform 0.1s, box-shadow 0.1s;
 
   &:hover {
-    background: ${shade(0.2, '#679436')}
+    background: ${shade(0.2, "#679436")};
   }
-  
+
   &:active {
     box-shadow: none;
     transform: translate(2px, 2px);
@@ -81,5 +81,3 @@ export const NextArrivalContainer = styled.div`
     flex-wrap: wrap;
   }
 `;
-
-
