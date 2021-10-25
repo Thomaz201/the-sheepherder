@@ -104,7 +104,7 @@ export default function Home({ pageProps }: HomeProps) {
 
       return;
     }
-  }, [pregnancies, setPregnancies]);
+  }, [pregnancies]);
 
   const handleDeletePregnancy = useCallback((id) => {
     const savedPregnancies = JSON.parse(Cookies.get('pageData'))
